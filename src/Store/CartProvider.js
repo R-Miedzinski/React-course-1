@@ -87,6 +87,7 @@ export default function CartProvider(props) {
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    resetCart: () => {},
   };
 
   return (

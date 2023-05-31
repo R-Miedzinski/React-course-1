@@ -35,15 +35,7 @@ export default function AvailableMeals(props) {
       },
       transformMeals
     );
-
-    // console.log(result);
-
-    // setDataMealsList(result);
   }, []);
-
-  // console.log(dataMealsList);
-
-  console.log(isLoading, mealsHasError);
 
   const mealsList = dataMealsList.map((meal) => {
     return <MealItem key={meal.id} id={meal.id} meal={meal}></MealItem>;
