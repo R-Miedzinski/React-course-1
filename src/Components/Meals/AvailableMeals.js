@@ -6,6 +6,10 @@ import MealItem from "./MealItem/MealItem";
 import useRequest from "../../Hooks/useRequest";
 // import MealItemForm from "./MealItem/MealItemForm";
 
+const validateMeal = (meal) => {
+  return meal.id && meal.name && meal.price && meal.description;
+};
+
 export default function AvailableMeals(props) {
   const [dataMealsList, setDataMealsList] = useState([]);
   const {
@@ -23,7 +27,9 @@ export default function AvailableMeals(props) {
       const loadedMeals = [];
 
       for (const meal in data) {
-        loadedMeals.push(data[meal]);
+        if (validateMeal(data[meal])) {
+          loadedMeals.push(data[meal]);
+        }
       }
 
       setDataMealsList(loadedMeals);

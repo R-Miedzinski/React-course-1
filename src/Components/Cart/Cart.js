@@ -9,6 +9,7 @@ import useRequest from "../../Hooks/useRequest";
 
 export default function Cart(props) {
   const [ordering, setOrdering] = useState(false);
+  const [orderIsFinished, setOrderIsFinished] = useState(false);
   const cartContext = useContext(CartContext);
   const {
     isLoading,
@@ -67,10 +68,16 @@ export default function Cart(props) {
       // putOrder.bind(null, order)
     );
 
-    setOrdering(false);
-    props.onCartClose();
+    setOrderIsFinished(true);
+    // props.onCartClose();
     cartContext.resetCart();
   }, []);
+
+  const closeCartAfterOrder = () => {
+    setOrdering(false);
+    setOrderIsFinished(false);
+    props.onCartClose();
+  };
 
   const cartItems = (
     <ul className={classes["cart-items"]}>
@@ -111,13 +118,23 @@ export default function Cart(props) {
           </div>
         </Modal>
       )}
-      {ordering && (
+      {ordering && !orderIsFinished && (
         <Modal>
           <Order
             onSend={sendOrder}
             onCancel={cancelOrder}
             totalAmount={totalAmount}
           />
+        </Modal>
+      )}
+      {ordering && orderIsFinished && (
+        <Modal>
+          <p className={classes.thankYou}>Thank you for ordering!</p>
+          <div className={classes.actions}>
+            <button className={classes.button} onClick={closeCartAfterOrder}>
+              Close
+            </button>
+          </div>
         </Modal>
       )}
     </>

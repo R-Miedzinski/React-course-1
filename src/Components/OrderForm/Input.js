@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Input = (props, ref) => {
   const [currentValue, setCurrentValue] = useState("");
@@ -9,17 +9,25 @@ const Input = (props, ref) => {
     setCurrentValue(event.target.value);
 
     setIsValid(props.validate(event.target.value));
+    props.onCheck();
   };
 
   const inputBlurHandler = () => {
     setIsTouched(true);
 
     setIsValid(props.validate(currentValue));
+    props.onCheck();
   };
+
+  // useEffect(() => {
+  //   props.onCheck();
+  // }, [isValid]);
 
   const inputInvalid = !isValid && isTouched;
 
-  const className = `${props.className} ${inputInvalid ? "invalid" : ""}`;
+  const className = `${props.className} ${
+    inputInvalid ? props.classNameInvalid : ""
+  }`;
 
   return (
     <div className={className}>
